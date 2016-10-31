@@ -56,10 +56,8 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Deus Ex - UNATCO.mp3" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\music.wav" />
