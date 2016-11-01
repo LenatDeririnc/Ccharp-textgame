@@ -196,6 +196,7 @@ namespace ConsoleApplication1
                     case "hack":
                         Console.WriteLine("\nВыберите программу для взлома\n");
                         Console.WriteLine(">max\t-Максимальная затрата энергии\n>mid\t-Средняя затрата энергии\n");
+                        Console.WriteLine("Для возвращения назад, введите любую другую команду.\n");
                         Console.Write(">>>hack/");
                         action = Console.ReadLine();
                         Console.Beep();
@@ -231,6 +232,7 @@ namespace ConsoleApplication1
                     case "inv":
                         Console.WriteLine("\nЗдесь хранятся все ваши одноразовые программы, купленные с BM.com.\nВыберите программу, которую вы хотите использовать.\n");
                         Console.WriteLine(">en+ \t\t{0} \n>en++ \t\t{1} \n>drive \t\t{2} \n>cleaner \t{3} \n", inv[0], inv[1], inv[2], inv[3]);
+                        Console.WriteLine("Для возвращения назад, введите любую другую команду.\n");
                         Console.Write(">>>");
                         action = Console.ReadLine();
                         Console.Beep();
@@ -282,10 +284,12 @@ namespace ConsoleApplication1
                         break;
 
                     case "attack":
-                        Console.WriteLine("\nВы хотите атаковать чужую сеть.\nКакую сеть вы хотите атаковать?");
+                        Console.WriteLine("\nВы хотите атаковать чужую сеть.\nКакую сеть вы хотите атаковать?\n");
                         Console.WriteLine(">samizdat\t- Известная газета с низким уровнем защиты. (Рек. ур. >10 ex)");
                         Console.WriteLine(">company72\t-Крупная корпарация по производству устройств. На ней стоит защита средней сложности. (Рек. ур. >50 ex)");
                         Console.WriteLine(">whitehouse\t- официальная резиденция президента. Крайне не рекомендуется направлять атаку именно туда. (Рек. ур. >100 ex)");
+                        Console.WriteLine();
+                        Console.WriteLine("Для возвращения назад, введите любую другую команду.\n");
                         Console.Write(">>>attack/");
                         action = Console.ReadLine();
                         Console.Beep();
@@ -295,6 +299,9 @@ namespace ConsoleApplication1
                         switch (action)
                         {
                             case "samizdat":
+
+                                time += 1;
+                                mins = ":" + rnd.Next(0, 6) + rnd.Next(0, 10);
 
                                 enemy = 10;
 
@@ -322,6 +329,9 @@ namespace ConsoleApplication1
 
                             case "company72":
 
+                                time += 1;
+                                mins = ":" + rnd.Next(0, 6) + rnd.Next(0, 10);
+
                                 enemy = 50;
 
                                 attackrand = rnd.Next(0, (Exp + enemy) + 1);
@@ -347,6 +357,9 @@ namespace ConsoleApplication1
                                 break;
 
                             case "whitehouse":
+
+                                time += 1;
+                                mins = ":" + rnd.Next(0, 6) + rnd.Next(0, 10);
 
                                 enemy = 100;
 
@@ -381,6 +394,7 @@ namespace ConsoleApplication1
                     case "BM.com":
                         Console.WriteLine("\nДобро пожаловать в BM.com!\nВыберите программу, которую вы желаете приобрести.\n");
                         Console.WriteLine(">en+ \t\t{0} \n>en++ \t\t{1} \n>drive \t\t{2} \n>cleaner \t{3} \n", 100, 500, 300, 150);
+                        Console.WriteLine("Для возвращения назад, введите любую другую команду.\n");
                         Console.Write(">>>");
                         action = Console.ReadLine();
                         Console.Beep();
@@ -450,7 +464,7 @@ namespace ConsoleApplication1
                                 break;
 
                             default:
-                                message = "Вы передумали...";
+                                message = "Отмена операции.";
                                 break;
 
                         }
@@ -473,6 +487,8 @@ namespace ConsoleApplication1
 
                     default:
                         message = "ОШИБКА: Неверно введена команда.";
+                        if (Energy > 100)
+                            Energy += (Energy - 100);
                         break;
                 }
 
