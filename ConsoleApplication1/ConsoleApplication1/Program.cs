@@ -65,6 +65,8 @@ namespace ConsoleApplication1
 
             int attackrand;
 
+            int enemy;
+
             sp.PlayLooping();
 
             while (true) // НАЧАЛО ИГРЫ
@@ -99,10 +101,12 @@ namespace ConsoleApplication1
                     else
                         status = "Весь день вы только и делали, что валяли дурака.";
 
-                    if (rest == false)  message += "Прошел день. ";
+                    if (rest == false)  message += "\nПрошел день. ";
                     else                message += "Вы решили отдохнуть. ";
 
                     message = message + status + "\nВы отзанимались " + work + " часов работы и вам выплатили соответствующую сумму кредитов.";
+
+                    work = 0;
 
                     rest = false;
                 }
@@ -119,7 +123,7 @@ namespace ConsoleApplication1
                 Console.WriteLine(">hack\t\t -Взломать сеть.");
                 Console.WriteLine(">inv\t\t -Инвентарь.");
                 Console.WriteLine(">attack\t\t -Провести хакерскую атаку.");
-                Console.WriteLine(">BM.com\t\t -Чёрный рынок");
+                Console.WriteLine(">bm.com\t\t -Чёрный рынок");
                 Console.WriteLine(">playgames\t -Отдохнуть весь день");
                 Console.WriteLine(">skip\t\t -Пропустить ход");
                 //Console.WriteLine(">last\t\t -Последнее действие");
@@ -194,111 +198,84 @@ namespace ConsoleApplication1
                 {
 
                     case "hack":
-                        Console.WriteLine("\nВыберите программу для взлома\n");
-                        Console.WriteLine(">max\t-Максимальная затрата энергии\n>mid\t-Средняя затрата энергии\n");
-                        Console.WriteLine("Для возвращения назад, введите любую другую команду.\n");
-                        Console.Write(">>>hack/");
-                        action = Console.ReadLine();
-                        Console.Beep();
-                        switch (action)
-                        {
-                            case "max":
+                        message += ("\nВыберите программу для взлома\n");
+                        message += (">hack/max\t-Максимальная затрата энергии\n>hack/mid\t-Средняя затрата энергии\n");
+                        message += ("Для возвращения назад, введите любую другую команду.\n");
+                        break;
+
+                                case "hack/max":
                                 work += 1;
                                 time += 1;
                                 mins = ":" + rnd.Next(0, 6) + rnd.Next(0, 10);
-                                message = "Программа max.exe проработала 1 час. \nОна использовала всю вашу энергию по максимому";
-                                
-                                
+                                message = "Программа max.exe проработала 1 час. \nОна использовала всю вашу энергию по максимому\n";
 
                                 Memory += 5;
                                 Energy -= 30;
                                 break;
 
-                            case "mid":
+                                case "hack/mid":
                                 work += 1;
                                 time += 1;
                                 mins = ":" + rnd.Next(0, 6) + rnd.Next(0, 10);
-                                message = "Программа min.exe проработала 1 час. \nЭтим вы немного сэкономили энергию.";
+                                message = "Программа min.exe проработала 1 час. \nЭтим вы немного сэкономили энергию.\n";
 
                                 Memory += 2;
                                 Energy -= 15;
                                 break;
-                            default:
-                                message = "Отмена операции.";
-                                break;
-                        }
-                        break;
 
                     case "inv":
-                        Console.WriteLine("\nЗдесь хранятся все ваши одноразовые программы, купленные с BM.com.\nВыберите программу, которую вы хотите использовать.\n");
-                        Console.WriteLine(">en+ \t\t{0} \n>en++ \t\t{1} \n>drive \t\t{2} \n>cleaner \t{3} \n", inv[0], inv[1], inv[2], inv[3]);
-                        Console.WriteLine("Для возвращения назад, введите любую другую команду.\n");
-                        Console.Write(">>>");
-                        action = Console.ReadLine();
-                        Console.Beep();
-                        switch (action)
-                        {
-                            case "en+":
-                                time += 1;
-                                mins = ":" + rnd.Next(0, 6) + rnd.Next(0, 10);
-                                inv[0] -= 1;
-                                Energy += 30;
-                                message = "Вы приняли обезболивающее и восполнили 30 ОЗ. \nТеперь у вас " + inv[0] + " обезболивающих";
-                                
-                                break;
-
-                            case "en++":
-                                time += 1;
-                                mins = ":" + rnd.Next(0, 6) + rnd.Next(0, 10);
-                                inv[1] -= 1;
-                                Energy += 50;
-                                message = "Вы использовали аптечку и восполнили 50 ОЗ. \nТеперь у вас " + inv[1] + " аптечек";
-
-                                break;
-
-                            case "drive":
-                                time += 1;
-                                mins = ":" + rnd.Next(0, 6) + rnd.Next(0, 10);
-                                inv[2] -= 1;
-                                Energy += 15;
-                                Exp += 5;
-                                message = "Ускоритель drive.exe разогнал ваш компьютер до максимально возможной производительности.";
-
-                                break;
-
-                            case "cleaner":
-                                time += 1;
-                                mins = ":" + rnd.Next(0, 6) + rnd.Next(0, 10);
-                                inv[3] -= 1;
-                                Energy += 5;
-                                Exp += 3;
-                                message = "С помощью cleaner.exe вы успешно очистили компьютер от вирусов";
-
-                                break;
-
-                            default:
-                                message = "Вы передумали...";
-                                break;
-
-                        }
+                        message += ("Выберите программу\n");
+                        message += (">inv/en+ \t\t" + inv[0] + "\t - +30 Энергии \n>inv/en++ \t\t" + inv[1] + "\t - +50 Энергии \n>inv/drive \t\t" + inv[2] + "\t - +15 Энергии +5 Опыта \n>inv/cleaner \t" + inv[3] + "\t - +5 Энергии +3 Опыта \n");
                         break;
 
+                    case "inv/en+":
+                                    time += 1;
+                                    mins = ":" + rnd.Next(0, 6) + rnd.Next(0, 10);
+                                    inv[0] -= 1;
+                                    Energy += 30;
+                                    message = "Вы увеличили энергию на 30%. \nТеперь у вас " + inv[0] + " програм en+";
+
+                                    break;
+
+                    case "inv/en++":
+                                    time += 1;
+                                    mins = ":" + rnd.Next(0, 6) + rnd.Next(0, 10);
+                                    inv[1] -= 1;
+                                    Energy += 50;
+                                    message = "Вы увеличили энергию на 50%.. \nТеперь у вас " + inv[1] + " програм en++";
+
+                                    break;
+
+                    case "inv/drive":
+                                    time += 1;
+                                    mins = ":" + rnd.Next(0, 6) + rnd.Next(0, 10);
+                                    inv[2] -= 1;
+                                    Energy += 15;
+                                    Exp += 5;
+                                    message = "Ускоритель drive.exe разогнал ваш компьютер до максимально возможной производительности.";
+
+                                    break;
+
+                    case "inv/cleaner":
+                                    time += 1;
+                                    mins = ":" + rnd.Next(0, 6) + rnd.Next(0, 10);
+                                    inv[3] -= 1;
+                                    Energy += 5;
+                                    Exp += 3;
+                                    message = "С помощью cleaner.exe вы успешно очистили компьютер от вирусов";
+
+                                    break;
+
                     case "attack":
-                        Console.WriteLine("\nВы хотите атаковать чужую сеть.\nКакую сеть вы хотите атаковать?\n");
-                        Console.WriteLine(">samizdat\t- Известная газета с низким уровнем защиты. (Рек. ур. >10 ex)");
-                        Console.WriteLine(">company72\t-Крупная корпарация по производству устройств. На ней стоит защита средней сложности. (Рек. ур. >50 ex)");
-                        Console.WriteLine(">whitehouse\t- официальная резиденция президента. Крайне не рекомендуется направлять атаку именно туда. (Рек. ур. >100 ex)");
-                        Console.WriteLine();
-                        Console.WriteLine("Для возвращения назад, введите любую другую команду.\n");
-                        Console.Write(">>>attack/");
-                        action = Console.ReadLine();
-                        Console.Beep();
+                        message += ("\nЕсли вы хотите атаковать чужую сеть, выберите какую сеть вы хотите атаковать.\n");
+                        message += (">attack/samizdat - Известная газета с низким уровнем защиты. (Рек. ур. >10 ex)\n");
+                        message += (">attack/company72 - Крупная корпарация по производству устройств. На ней стоит защита средней сложности. (Рек. ур. >50 ex)\n");
+                        message += (">attack/whitehouse - официальная резиденция президента. Крайне не рекомендуется направлять атаку именно туда. (Рек. ур. >100 ex)\n");
+                        break;
 
-                        int enemy;
+                        
 
-                        switch (action)
-                        {
-                            case "samizdat":
+                            case "attack/samizdat":
 
                                 time += 1;
                                 mins = ":" + rnd.Next(0, 6) + rnd.Next(0, 10);
@@ -327,7 +304,7 @@ namespace ConsoleApplication1
 
                                 break;
 
-                            case "company72":
+                            case "attack/company72":                                
 
                                 time += 1;
                                 mins = ":" + rnd.Next(0, 6) + rnd.Next(0, 10);
@@ -356,7 +333,7 @@ namespace ConsoleApplication1
 
                                 break;
 
-                            case "whitehouse":
+                            case "attack/whitehouse":
 
                                 time += 1;
                                 mins = ":" + rnd.Next(0, 6) + rnd.Next(0, 10);
@@ -385,22 +362,12 @@ namespace ConsoleApplication1
 
                                 break;
 
-                            default:
-                                message = "Отмена операции.";
-                                break;
-                        }
+                    case "bm.com":
+                        message += ("\nДоступные программы на BM.com:\n");
+                        message += (">bm.com/en+ \t\t" + 100 + " \n>bm.com/en++ \t\t" + 500 + " \n>bm.com/drive \t\t" + 300 + " \n>bm.com/cleaner \t" + 150);
                         break;
 
-                    case "BM.com":
-                        Console.WriteLine("\nДобро пожаловать в BM.com!\nВыберите программу, которую вы желаете приобрести.\n");
-                        Console.WriteLine(">en+ \t\t{0} \n>en++ \t\t{1} \n>drive \t\t{2} \n>cleaner \t{3} \n", 100, 500, 300, 150);
-                        Console.WriteLine("Для возвращения назад, введите любую другую команду.\n");
-                        Console.Write(">>>");
-                        action = Console.ReadLine();
-                        Console.Beep();
-                        switch (action)
-                        {
-                            case "en+":
+                            case "bm.com/en+":
                                 time += 1;
                                 mins = ":" + rnd.Next(0, 6) + rnd.Next(0, 10);
                                 if (Money >= 100)
@@ -416,7 +383,7 @@ namespace ConsoleApplication1
 
                                 break;
 
-                            case "en++":
+                            case "bm.com/en++":
                                 time += 1;
                                 mins = ":" + rnd.Next(0, 6) + rnd.Next(0, 10);
                                 if (Money >= 500)
@@ -432,7 +399,7 @@ namespace ConsoleApplication1
 
                                 break;
 
-                            case "drive":
+                            case "bm.com/drive":
                                 time += 1;
                                 mins = ":" + rnd.Next(0, 6) + rnd.Next(0, 10);
                                 if (Money >= 300)
@@ -448,7 +415,7 @@ namespace ConsoleApplication1
 
                                 break;
 
-                            case "cleaner":
+                            case "bm.com/cleaner":
                                 time += 1;
                                 mins = ":" + rnd.Next(0, 6) + rnd.Next(0, 10);
                                 if (Money >= 150)
@@ -463,13 +430,6 @@ namespace ConsoleApplication1
                                 }
                                 break;
 
-                            default:
-                                message = "Отмена операции.";
-                                break;
-
-                        }
-                        break;
-
                     case "playgames":
 
                         rest = true;
@@ -482,6 +442,10 @@ namespace ConsoleApplication1
                         mins = ":" + rnd.Next(0, 6) + rnd.Next(0, 10);
 
                         message = "Вы пропустили 1 час";
+                        break;
+
+                    case "easteregg":
+                        message += "Тут нет никаких посхалок. Иди от сюда.";
                         break;
                    
 
